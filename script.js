@@ -1,6 +1,6 @@
 document.addEventListener('DOMContentLoaded', () => {
     const observerOptions = {
-        threshold: 0.2
+        threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries) => {
@@ -15,12 +15,19 @@ document.addEventListener('DOMContentLoaded', () => {
         observer.observe(el);
     });
 
-    // Add a slight parallax effect to the hero image
-    window.addEventListener('scroll', () => {
-        const scrolled = window.pageYOffset;
-        const heroImg = document.querySelector('.hero-image');
-        if (heroImg) {
-            heroImg.style.transform = `translateY(${scrolled * 0.1}px) scale(${1 + scrolled * 0.0001})`;
-        }
+    // Mouse movement influence on blobs
+    document.addEventListener('mousemove', (e) => {
+        const x = e.clientX / window.innerWidth;
+        const y = e.clientY / window.innerHeight;
+        
+        const blobs = document.querySelectorAll('.blob');
+        blobs.forEach((blob, index) => {
+            const speed = (index + 1) * 20;
+            const moveX = (x - 0.5) * speed;
+            const moveY = (y - 0.5) * speed;
+            blob.style.transform = `translate(${moveX}px, ${moveY}px)`;
+        });
     });
+
+    // Smooth scroll for nav links (if any)
 });
